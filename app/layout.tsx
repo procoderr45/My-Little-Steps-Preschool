@@ -38,6 +38,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="4AvwA2rd-SSD7gUUN5Hqq3n7X9e1IjPPh0FWxCysGz4"
+        />
+      </head>
       <body
         className={`
           ${playfair.variable}
