@@ -1,3 +1,4 @@
+import Navbar from "@/features/app/Navbar"
 import "./globals.css"
 import { Playfair_Display, Inter } from "next/font/google"
 
@@ -28,6 +29,7 @@ export default function RootLayout({
           tracking-wide
         `}
       >
+        <Navbar />
         {children}
       </body>
     </html>

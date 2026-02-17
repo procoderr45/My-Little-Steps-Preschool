@@ -7,22 +7,17 @@ export default function HeroSection() {
     return (
         <section className="relative overflow-hidden bg-[#FDFAF5]">
 
-            {/* ================= PREMIUM BACKGROUND LAYERS ================= */}
             <div className="absolute inset-0 -z-10 overflow-hidden">
 
-                {/* Warm gradient wash */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#F6E8D5] via-[#FDF8F1] to-[#EDE6D6]" />
 
-                {/* Soft radial lights */}
                 <div className="absolute top-[-200px] left-[-200px] w-[600px] h-[600px] bg-[#C0922B]/10 rounded-full blur-[140px]" />
                 <div className="absolute bottom-[-250px] right-[-250px] w-[700px] h-[700px] bg-[#A8C5A0]/15 rounded-full blur-[160px]" />
 
             </div>
 
-            {/* ================= MAIN CONTAINER ================= */}
             <div className="max-w-7xl mx-auto px-6 pt-24 pb-16 md:pt-32 md:pb-24">
 
-                {/* ================= TOP TRUST BADGE ================= */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -36,7 +31,6 @@ export default function HeroSection() {
                     </div>
                 </motion.div>
 
-                {/* ================= HERO TEXT ================= */}
                 <div className="text-center max-w-4xl mx-auto">
                     <motion.h1
                         initial={{ opacity: 0, y: 60 }}
@@ -114,7 +108,6 @@ export default function HeroSection() {
                         while building strong academic and emotional foundations.
                     </motion.p>
 
-                    {/* ================= TRUST PILLS ================= */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -136,7 +129,6 @@ export default function HeroSection() {
                         ))}
                     </motion.div>
 
-                    {/* ================= CTA BUTTONS ================= */}
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -162,7 +154,6 @@ export default function HeroSection() {
 
                 </div>
 
-                {/* ================= RESPONSIVE IMAGE SECTION ================= */}
                 <motion.div
                     initial={{ opacity: 0, y: 60 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -222,13 +213,11 @@ export default function HeroSection() {
                         boxShadow: "0 32px 80px rgba(13,148,136,0.1), 0 2px 0 rgba(255,255,255,0.8) inset, 0 -1px 0 rgba(13,148,136,0.1) inset",
                     }}
                 >
-                    {/* Subtle background orbs */}
                     <div className="absolute top-[-40px] left-[-40px] w-[180px] h-[180px] rounded-full pointer-events-none"
                         style={{ background: "radial-gradient(circle, rgba(13,148,136,0.08) 0%, transparent 70%)" }} />
                     <div className="absolute bottom-[-40px] right-[-40px] w-[200px] h-[200px] rounded-full pointer-events-none"
                         style={{ background: "radial-gradient(circle, rgba(5,150,105,0.07) 0%, transparent 70%)" }} />
 
-                    {/* Top label */}
                     <div className="flex justify-center mb-8">
                         <div className="flex items-center gap-3">
                             <div className="h-px w-8" style={{ background: "rgb(13,148,136)" }} />
@@ -240,7 +229,6 @@ export default function HeroSection() {
                         </div>
                     </div>
 
-                    {/* Stats grid */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-0 text-center relative z-10">
                         {[
                             { value: "15+", label: "Years of Excellence", icon: "🏛️" },
@@ -252,7 +240,6 @@ export default function HeroSection() {
                                 key={stat.label}
                                 className="relative flex flex-col items-center px-4 py-2"
                             >
-                                {/* Vertical divider between items */}
                                 {i !== 0 && (
                                     <div
                                         className="absolute left-0 top-[10%] h-[80%] w-px hidden md:block"
@@ -260,7 +247,6 @@ export default function HeroSection() {
                                     />
                                 )}
 
-                                {/* Icon pill */}
                                 <div
                                     className="mb-3 w-10 h-10 rounded-2xl flex items-center justify-center text-lg"
                                     style={{
@@ -271,7 +257,6 @@ export default function HeroSection() {
                                     {stat.icon}
                                 </div>
 
-                                {/* Value */}
                                 <p
                                     className="text-3xl md:text-4xl font-semibold leading-none"
                                     style={{
@@ -285,7 +270,6 @@ export default function HeroSection() {
                                     {stat.value}
                                 </p>
 
-                                {/* Label */}
                                 <p
                                     className="mt-2 text-[11px] uppercase tracking-[0.18em]"
                                     style={{
@@ -300,7 +284,6 @@ export default function HeroSection() {
                         ))}
                     </div>
 
-                    {/* Bottom CTA strip */}
                     <div className="mt-8 flex justify-center">
                         <div
                             className="flex items-center gap-2 px-5 py-2 rounded-full text-[11px] tracking-widest uppercase font-semibold"
