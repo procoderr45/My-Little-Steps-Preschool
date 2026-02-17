@@ -4,7 +4,7 @@ import HeroSection from "@/features/landing/HeroComponents";
 import Image from "next/image";
 
 export const metadata = {
-  title: "About Us | My Little Steps Preschool, Ambarnath",
+  title: "Best Preschool in Mumbai | My Little Steps Preschool, Ambarnath",
   description:
     "Discover our philosophy, core values, and nurturing approach at My Little Steps Preschool in Ambarnath.",
   keywords: [
@@ -13,6 +13,10 @@ export const metadata = {
     "Montessori preschool Ambarnath",
     "CBSE preschool near me"
   ],
+
+  verification: {
+    google: "4AvwA2rd-SSD7gUUN5Hqq3n7X9e1IjPPh0FWxCysGz4",
+  },
 }
 
 
