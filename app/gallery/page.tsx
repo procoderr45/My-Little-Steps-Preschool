@@ -177,7 +177,7 @@ function PhotoCard({ photo, index, onClick }: { photo: typeof PHOTOS[0]; index: 
     )
 }
 
-export default function () {
+export default function Gallery() {
     const [activeCategory, setActiveCategory] = useState("All")
     const [lightboxIdx, setLightboxIdx] = useState<number | null>(null)
     const headerRef = useRef(null)

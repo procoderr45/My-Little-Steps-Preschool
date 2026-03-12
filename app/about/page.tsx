@@ -1,16 +1,11 @@
 "use client"
 
-import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import { inView, motion, useInView, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import Head from "next/head"
-import { useRef } from "react"
 import { schoolLocation, schoolName } from "@/utils/constants"
-
-function useFadeUp(threshold = 0.2) {
-    const ref = useRef(null)
-    const inView = useInView(ref, { once: true, margin: "-60px", amount: threshold })
-    return { ref, inView }
-}
+import TeamCard from "@/components/school/TeamCard"
+import { ValueCard } from "@/components/school/ValueCard"
 
 const P = {
     coral: "#FF6B6B", orange: "#FF8E53", amber: "#F59E0B", yellow: "#FCD34D",
@@ -25,6 +20,7 @@ const g = {
     purple: `linear-gradient(135deg, ${P.purple}, ${P.pink})`,
     rainbow: `linear-gradient(135deg, ${P.coral} 0%, ${P.amber} 30%, ${P.teal} 60%, ${P.indigo} 100%)`,
 }
+
 function gt(gradient: string) {
     return { background: gradient, WebkitBackgroundClip: "text" as const, WebkitTextFillColor: "transparent" as const, backgroundClip: "text" as const }
 }
@@ -39,6 +35,36 @@ function SectionLabel({ children, color = P.teal }: { children: string; color?: 
         </div>
     )
 }
+import { useRef, useEffect, useState } from "react"
+
+export function useFadeUp(threshold = 0.2) {
+    const ref = useRef<HTMLDivElement | null>(null)
+    const [inView, setInView] = useState(false)
+
+    useEffect(() => {
+        if (!ref.current) return
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    setInView(true)
+                    observer.disconnect()
+                }
+            },
+            {
+                threshold,
+                rootMargin: "-60px"
+            }
+        )
+
+        observer.observe(ref.current)
+
+        return () => observer.disconnect()
+    }, [threshold])
+
+    return { ref, inView }
+}
+
 
 const vColors = [
     { bg: "rgba(255,107,107,0.07)", border: "rgba(255,107,107,0.22)", accent: P.coral, iBg: "rgba(255,107,107,0.12)" },
@@ -48,62 +74,6 @@ const vColors = [
     { bg: "rgba(13,148,136,0.07)", border: "rgba(13,148,136,0.22)", accent: P.teal, iBg: "rgba(13,148,136,0.12)" },
     { bg: "rgba(236,72,153,0.07)", border: "rgba(236,72,153,0.22)", accent: P.pink, iBg: "rgba(236,72,153,0.12)" },
 ]
-
-function ValueCard({ icon, title, desc, delay, ci }: { icon: string; title: string; desc: string; delay: number; ci: number }) {
-    const { ref, inView } = useFadeUp()
-    const c = vColors[ci % vColors.length]
-    return (
-        <motion.div ref={ref}
-            initial={{ opacity: 0, y: 50, rotate: -1.5 }}
-            animate={inView ? { opacity: 1, y: 0, rotate: 0 } : {}}
-            transition={{ duration: 0.6, delay, ease: "easeOut" }}
-            whileHover={{ y: -8, rotate: 0.5, boxShadow: `0 24px 60px ${c.accent}28` }}
-            className="group relative rounded-[28px] p-7 overflow-hidden cursor-default"
-            style={{ background: c.bg, border: `1.5px solid ${c.border}` }}>
-            <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[28px]" style={{ background: c.accent }} />
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 rounded-[28px] transition-opacity duration-500 pointer-events-none"
-                style={{ background: `radial-gradient(circle at 25% 25%, ${c.accent}10, transparent 70%)` }} />
-            <div className="mb-5 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-sm"
-                style={{ background: c.iBg, border: `1px solid ${c.accent}25` }}>{icon}</div>
-            <h3 className="text-lg font-semibold mb-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: P.dark, fontSize: "1.2rem" }}>{title}</h3>
-            <p className="text-sm leading-relaxed" style={{ fontFamily: "'Jost', sans-serif", color: "rgb(90,90,100)", fontWeight: 300 }}>{desc}</p>
-        </motion.div>
-    )
-}
-
-const tColors = [
-    { grad: g.coral, sh: "rgba(255,107,107,0.32)" },
-    { grad: g.sky, sh: "rgba(56,189,248,0.32)" },
-    { grad: g.purple, sh: "rgba(168,85,247,0.32)" },
-    { grad: g.amber, sh: "rgba(245,158,11,0.32)" },
-]
-
-function TeamCard({ name, role, qualification, emoji, delay, ci }: { name: string; role: string; qualification: string; emoji: string; delay: number; ci: number }) {
-    const { ref, inView } = useFadeUp()
-    const c = tColors[ci % tColors.length]
-    return (
-        <motion.div ref={ref}
-            initial={{ opacity: 0, scale: 0.88, y: 30 }}
-            animate={inView ? { opacity: 1, scale: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay }}
-            whileHover={{ y: -10, boxShadow: `0 32px 64px ${c.sh}` }}
-            className="flex flex-col items-center text-center rounded-[32px] px-6 py-8 overflow-hidden"
-            style={{ background: P.cream, border: "1px solid rgba(0,0,0,0.06)", boxShadow: "0 8px 32px rgba(0,0,0,0.06)" }}>
-            <div className="relative w-24 h-24 rounded-full flex items-center justify-center text-4xl mb-4"
-                style={{ background: c.grad, boxShadow: `0 12px 32px ${c.sh}` }}>
-                <span>{emoji}</span>
-                <motion.div className="absolute inset-0 rounded-full"
-                    style={{ border: "3px solid rgba(255,255,255,0.45)" }}
-                    animate={{ scale: [1, 1.18, 1], opacity: [0.7, 0, 0.7] }}
-                    transition={{ repeat: Infinity, duration: 2.5 }} />
-            </div>
-            <h3 className="text-xl font-semibold" style={{ fontFamily: "'Cormorant Garamond', serif", color: P.dark }}>{name}</h3>
-            <p className="mt-1 text-xs tracking-widest uppercase font-semibold" style={{ fontFamily: "'Jost', sans-serif", ...gt(c.grad) }}>{role}</p>
-            <div className="mt-3 h-px w-12 mx-auto" style={{ background: c.grad }} />
-            <p className="mt-3 text-xs leading-relaxed" style={{ fontFamily: "'Jost', sans-serif", color: "rgb(110,110,120)", fontWeight: 300 }}>{qualification}</p>
-        </motion.div>
-    )
-}
 
 const tlColors = [P.coral, P.amber, P.teal, P.purple, P.sky, P.pink]
 
@@ -148,7 +118,13 @@ function Bubble({ size, color, x, y, dur }: { size: number; color: string; x: st
     )
 }
 
+
 export default function AboutPage() {
+    const founderImgRef = useFadeUp()
+    const founderTextRef = useFadeUp()
+    const teamStatsRef = useFadeUp()
+    const ctaRef = useFadeUp()
+
     const heroRef = useRef(null)
     const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
     const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "28%"])
@@ -159,7 +135,7 @@ export default function AboutPage() {
     return (
         <>
             <Head>
-                <title>About Us | {schoolName} — {schoolLocation}'s Most Trusted Early Learning Centre</title>
+                <title>About Us | {schoolName} — {schoolLocation}s Most Trusted Early Learning Centre</title>
                 <meta name="description" content={`Learn about ${schoolName} in ${schoolLocation} — our story, mission, philosophy, dedicated educators, and 15+ years of nurturing children with a Montessori-inspired, play-based curriculum.`} />
                 <meta name="keywords" content={`preschool ${schoolLocation}, best preschool ${schoolLocation}, Montessori preschool, early childhood education, ${schoolName}`} />
                 <meta property="og:title" content={`About ${schoolName} — ${schoolLocation}`} />
@@ -220,7 +196,7 @@ export default function AboutPage() {
                         <motion.p initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.35 }}
                             className="mt-8 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto"
                             style={{ fontFamily: "'Jost', sans-serif", color: "rgb(80,80,95)", fontWeight: 300 }}>
-                            We didn't set out to build a school. We set out to build a world where every child
+                            We didn&apos;t set out to build a school. We set out to build a world where every child
                             wakes up excited to learn — and comes home glowing with stories to tell.
                         </motion.p>
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}
@@ -317,9 +293,8 @@ export default function AboutPage() {
 
                         <div className="grid md:grid-cols-5 gap-12 items-center">
                             {(() => {
-                                const { ref, inView } = useFadeUp()
                                 return (
-                                    <motion.div ref={ref} initial={{ opacity: 0, x: -70 }} animate={inView ? { opacity: 1, x: 0 } : {}}
+                                    <motion.div ref={founderImgRef.ref} initial={{ opacity: 0, x: -70 }} animate={inView ? { opacity: 1, x: 0 } : {}}
                                         transition={{ duration: 1 }} className="md:col-span-2 flex justify-center">
                                         <div className="relative">
                                             <motion.div className="absolute inset-[-18px] rounded-full"
@@ -357,9 +332,9 @@ export default function AboutPage() {
                                         transition={{ duration: 1, delay: 0.1 }} className="md:col-span-3">
                                         <h2 id="founder-heading" className="text-4xl md:text-5xl font-semibold leading-tight mb-6"
                                             style={{ fontFamily: "'Cormorant Garamond', serif", color: P.dark }}>
-                                            "I wanted to build a school{" "}
+                                            &quot;I wanted to build a school{" "}
                                             <span style={gt(g.teal)}>I wished existed</span>{" "}
-                                            when I was a child."
+                                            when I was a child.&quot;
                                         </h2>
                                         <div className="space-y-4 text-base leading-relaxed" style={{ fontFamily: "'Jost', sans-serif", color: "rgb(90,90,100)", fontWeight: 300 }}>
                                             <p>After two decades in childhood education across Mumbai and Pune, Mrs. Priya Sharma returned to {schoolLocation} with one dream: to create a preschool that felt less like a classroom and more like a second home.</p>

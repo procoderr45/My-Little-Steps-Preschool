@@ -1,4 +1,4 @@
-import AboutPage from "@/features/landing/AboutUs";
+import AboutPage from "@/app/about/page";
 import HeroSection from "@/features/landing/HeroComponents";
 
 
@@ -6,7 +6,6 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <AboutPage />
     </>
   );
 }
